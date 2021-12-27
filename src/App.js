@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import React,{useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import {loginAction, logoutAction} from './redux/action'
 import './App.css';
 
+
 function App() {
+
+  const [phone,setPhone]=useState("")
+  const dispatch=useDispatch()
+  const auth=useSelector((state)=>state.auth)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {auth.isAuth ? <div>
+      <h5>Successfully you Logged in</h5>
+      <button style={{margin:'20px'}} onClick={()=>{dispatch(logoutAction())}}>Logout</button>
+    </div> :<div>
+    <h4>Login</h4>
+      <input type="text" name={phone} value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder='Phone Number'/>
+      <button style={{margin:'20px'}} onClick={()=>{dispatch(loginAction(phone))
+      console.log('working')}}>Login</button>
+    </div>}
+     
     </div>
   );
 }
